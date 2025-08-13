@@ -1,0 +1,54 @@
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+}
+
+android {
+    compileSdk 34
+    namespace "com.ddmh.lib_matting"
+
+    defaultConfig {
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+}
+
+dependencies {
+
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    compileOnly fileTree(includes: ['*.aar'], dir: 'libs')
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
+    implementation 'com.github.getActivity:Toaster:12.6'
+    def camerax_version = "1.4.1"
+    //https://developer.android.com/jetpack/androidx/releases/camera?hl=zh-cn#1.4.0-beta02
+    api "androidx.camera:camera-camera2:${camerax_version}"
+    api "androidx.camera:camera-video:${camerax_version}"
+    api "androidx.camera:camera-lifecycle:${camerax_version}"
+    api "androidx.camera:camera-view:${camerax_version}"
+    implementation 'androidx.graphics:graphics-core:1.0.3'
+    implementation 'org.jetbrains.kotlinx:atomicfu:0.23.2'
+//    api 'com.ddmh:lib-camera:1.0.9'
+//    api 'com.ddmh:lib-camera-effect:1.1.0'
+}
