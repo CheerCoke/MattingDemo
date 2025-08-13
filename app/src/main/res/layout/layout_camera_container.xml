@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/camera_root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/preview_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <com.ddmh.lib_camera.view.FocusSunView
+            android:id="@+id/focus_sun"
+            android:layout_width="120dp"
+            android:layout_height="130dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@+id/preview_view"
+            app:layout_constraintTop_toTopOf="@+id/preview_view" />
+
+        <com.ddmh.lib_camera.view.SmallFrameView
+            android:id="@+id/view_small_frame"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/preview_view"
+            app:layout_constraintEnd_toEndOf="@+id/preview_view"
+            app:layout_constraintStart_toStartOf="@+id/preview_view"
+            app:layout_constraintTop_toTopOf="@+id/preview_view" />
+
+        <com.ddmh.lib_camera.view.GridOverlayView
+            android:id="@+id/grid_overlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/view_small_frame"
+            app:layout_constraintEnd_toEndOf="@+id/view_small_frame"
+            app:layout_constraintStart_toStartOf="@+id/view_small_frame"
+            app:layout_constraintTop_toTopOf="@+id/view_small_frame" />
+
+
+        <LinearLayout
+            android:id="@+id/preview_cover"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#FF000000"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/ic_launcher" />
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

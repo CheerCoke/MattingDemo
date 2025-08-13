@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.ddmh.lib_matting.sticker.StickerView
+                android:id="@+id/sticker_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="9:16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <include
+                    android:id="@+id/layout_camera"
+                    layout="@layout/layout_camera_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </com.ddmh.lib_matting.sticker.StickerView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_change_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="更换背景图" />
+
+            <Button
+                android:id="@+id/btn_change_lens"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="前后置" />
+
+            <CheckBox
+                android:id="@+id/btn_sticker1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="贴纸1" />
+
+            <CheckBox
+                android:id="@+id/btn_sticker2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="贴纸2" />
+
+            <CheckBox
+                android:id="@+id/btn_sticker3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="导入贴纸" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
+
+
+            <RadioGroup
+                android:id="@+id/rb_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
+
+                <RadioButton
+                    android:id="@+id/rb_green"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="绿" />
+
+                <RadioButton
+                    android:id="@+id/rb_red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="红" />
+
+                <RadioButton
+                    android:id="@+id/rb_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="蓝" />
+            </RadioGroup>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="相似度" />
+
+                <SeekBar
+                    android:id="@+id/seekbar_similarity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:max="100"
+                    android:progress="40" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="根据与颜色的相似度匹配混合，越大代表颜色越不相似，1时会展示背景图，通常0.4左右" />
+        </LinearLayout>
+
+
+        <com.example.mattingdemo.RecordButtonView
+            android:id="@+id/record_button"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="100dp" />
+    </FrameLayout>
+</layout>
