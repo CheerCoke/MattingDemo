@@ -33,6 +33,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MattingDemo"
+rootProject.name = "Demo"
 include(":app")
 include(":lib_matting")
+include(":lib_wallpaper")

@@ -73,7 +73,7 @@ public abstract class Sticker implements Serializable {
     private boolean isFlippedHorizontally;
     private boolean isFlippedVertically;
 
-    private boolean rotateEnable = true;
+    private boolean rotateEnable = false;
 
     private boolean translateEnable = true;
 

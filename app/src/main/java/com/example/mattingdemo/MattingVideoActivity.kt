@@ -9,10 +9,12 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.view.PreviewView
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
+import androidx.core.net.toFile
 import com.ddmh.lib_matting.sticker.BitmapSticker
 import com.ddmh.lib_camera.LibCamera
 import com.ddmh.lib_camera.core.BaseCameraActivity
@@ -79,17 +81,18 @@ class MattingVideoActivity :
         }
         getCameraController()?.setFilterEffects {
             object : FilterEffect() {
-                override var isPreview: Boolean = true
+                override var isPreview: Boolean = false
 
                 override fun filter(): () -> BaseFilter = {
                     FilterGroup(
                         listOf(
                             MattingFilter().apply {
                                 setKeyColor(colorMode)
+                                setSimilarity(0.5f)
                                 setBgBitmap(
                                     BitmapFactory.decodeResource(
                                         LibCamera.getApplication().resources,
-                                        R.drawable.sample_bg
+                                        R.drawable.bg
                                     )
                                 )
                             },
@@ -274,14 +277,23 @@ class MattingVideoActivity :
         })
 
         binding.recordButton.setOnRecordToggleListener {
-            if (it) {
-                getCameraController()?.startRecording(
-                    generateVideoFilePath("${System.currentTimeMillis()}.mp4")
-                )
-                getCameraController()?.updateFilter()
-            } else {
-                getCameraController()?.stopRecording()
-            }
+            getCameraController()?.takePicture(
+                generateVideoFilePath("${System.currentTimeMillis()}.jpg"),
+                null,
+                onComplete = {
+                    openFile(this@MattingVideoActivity, it?.toFile() ?: return@takePicture)
+                },
+                onError = {
+                    Toast.makeText(this@MattingVideoActivity, "保存失败", Toast.LENGTH_SHORT).show()
+                })
+//            if (it) {
+//                getCameraController()?.startRecording(
+//                    generateVideoFilePath("${System.currentTimeMillis()}.mp4")
+//                )
+//                getCameraController()?.updateFilter()
+//            } else {
+//                getCameraController()?.stopRecording()
+//            }
         }
 
         //相机状态回调
@@ -305,7 +317,8 @@ class MattingVideoActivity :
 
 
     override fun getUseCaseConfig(): UseCaseConfig {
-        return DefaultUseCaseConfig(UseCaseType(UseCaseType.PREVIEW or UseCaseType.VIDEO_CAPTURE))
+//        return DefaultUseCaseConfig(UseCaseType(UseCaseType.PREVIEW or UseCaseType.VIDEO_CAPTURE))
+        return DefaultUseCaseConfig(UseCaseType(UseCaseType.PREVIEW or UseCaseType.IMAGE_CAPTURE))
     }
 
 

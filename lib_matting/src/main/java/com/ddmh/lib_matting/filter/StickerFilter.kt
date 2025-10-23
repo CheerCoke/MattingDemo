@@ -40,7 +40,9 @@ class StickerFilter() : BaseFilter() {
         Matrix.setIdentityM(transform3D, 0)
         // 顺时针旋转180°的纹理坐标
         val texData2 = floatArrayOf(
-            1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+            1.0f, 1.0f,
+            0.0f, 1.0f,
+            1.0f, 0.0f,
             0.0f, 0.0f,
         )
         mTextureVertices = ByteBuffer.allocateDirect(texData2.size * 4)
@@ -58,8 +60,8 @@ class StickerFilter() : BaseFilter() {
                     " \n" +
                     " void main()\n" +
                     " {\n" +
-                    "    gl_Position = transformMatrix * vec4(position.xy, 0.0, 1.0)*orthographicMatrix;\n" +
-//                    "    gl_Position =  vec4(position.xy, 0.0, 1.0);\n" +
+//                    "    gl_Position = transformMatrix * vec4(position.xy, 0.0, 1.0)*orthographicMatrix;\n" +
+                    "    gl_Position =  vec4(position.xy, 0.0, 1.0);\n" +
                     "     textureCoordinate = inputTextureCoordinate.xy;\n" +
                     " }", NO_FILTER_FRAGMENT_SHADER
         )
@@ -121,8 +123,8 @@ class StickerFilter() : BaseFilter() {
 
     override fun onOutputSizeChanged(width: Int, height: Int) {
         super.onOutputSizeChanged(width, height)
-        Matrix.orthoM(orthographicMatrix, 0, -1.0f, 1.0f, -1.0f * height /  width, 1.0f *  height / width, -1.0f, 1.0f);
-        setUniformMatrix4f(orthographicMatrixUniform, orthographicMatrix)
+//        Matrix.orthoM(orthographicMatrix, 0, -1.0f, 1.0f, -1.0f * height /  width, 1.0f *  height / width, -1.0f, 1.0f);
+//        setUniformMatrix4f(orthographicMatrixUniform, orthographicMatrix)
 
     }
 

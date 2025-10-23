@@ -55,4 +55,7 @@ dependencies {
 
 
     implementation(project(":lib_matting"))
+    implementation(project(":lib_wallpaper"))
+    implementation(libs.pictureselector)
+    api("io.coil-kt:coil:2.6.0")
 }
