@@ -1,8 +1,6 @@
 precision highp float;
 varying vec2 textureCoordinate;
 uniform sampler2D u_bg;
-uniform sampler2D u_depth;
-uniform sampler2D u_front;
 uniform vec2 u_factor;
 uniform vec2 u_resolution;
 //uniform float u_time;
@@ -59,8 +57,7 @@ void main() {
     centeredUV *= scale;
     vec2 scaledUV = centeredUV + 0.5;
 
-    float depth = texture2D(u_depth, scaledUV).r;
-    float depthFactor = (1.0 - depth);
+    float depthFactor = 0.5;
 
     vec2 uv1 = rotateAxisX(scaledUV, u_factor.y * 5.0 * (1.0+depthFactor*0.2), 0.5);
     vec2 uv2 = rotateAxisY(uv1, u_factor.x * 5.0 * (1.0+depthFactor*0.2), 0.5);
@@ -74,13 +71,5 @@ void main() {
     parallaxUV = clamp(parallaxUV, 0.0, 1.0);
     vec4 bgColor = texture2D(u_bg, parallaxUV);
 
-    vec2 offset2 = vec2(u_factor.x, u_factor.y) * 0.01 * (1.0+depthFactor*0.015);
-    offset2.y = offset2.y* ratio;
-
-    vec2 parallaxUV2 = uv2 + offset2;
-    parallaxUV2 = clamp(parallaxUV2, 0.0, 1.0);
-    vec4 fgColor = texture2D(u_front, parallaxUV2);
-
-    vec4 color = mix(bgColor, fgColor, fgColor.a);
-    gl_FragColor = color;
+    gl_FragColor = bgColor;
 }

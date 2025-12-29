@@ -1,105 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btn_set_live_test"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="50dp">
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="3dp"
+            android:text="设置动态壁纸" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="背景图" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-
-                android:text="背景深度" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-
-                android:text="前景图" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingTop="100dp">
-
-            <ImageView
-                android:id="@+id/iv_bg"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@mipmap/ic_launcher" />
-
-            <ImageView
-                android:id="@+id/iv_bg_depth"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@mipmap/ic_launcher" />
-
-            <ImageView
-                android:id="@+id/iv_front"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@mipmap/ic_launcher" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btn_set_3d"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:gravity="center">
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="3dp"
+            android:text="设置3d动态壁纸" />
 
-            <Button
-                android:id="@+id/btn_set"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                                android:layout_margin="3dp"
+        <Button
+            android:id="@+id/btn_set_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="3dp"
+            android:text="设置视频壁纸" />
 
-                android:text="设置3d壁纸" />
-
-            <Button
-                android:id="@+id/btn_set_video"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                                android:layout_margin="3dp"
-
-                android:text="设置视频壁纸" />
-
-            <Button
-                android:id="@+id/btn_set_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                                android:layout_margin="3dp"
-
-                android:text="设图片壁纸" />
-        </LinearLayout>
-
-    </FrameLayout>
+        <Button
+            android:id="@+id/btn_set_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="3dp"
+            android:text="设图片壁纸" />
+    </LinearLayout>
 </layout>

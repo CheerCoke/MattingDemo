@@ -1,7 +1,6 @@
 package com.example.wallpaper
 
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
@@ -23,10 +22,6 @@ import java.io.InputStream
 class WallpaperActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWallpaperBinding
 
-    private var bgPath: String? = null
-    private var frontPath: String? = null
-    private var depthPath: String? = null
-
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,19 +31,20 @@ class WallpaperActivity : AppCompatActivity() {
     }
 
     fun initListener() {
-        binding.btnSet.setOnClickListener {
-            val bg = bgPath ?: return@setOnClickListener
-            val depth = depthPath ?: return@setOnClickListener
-            WallpaperHelper.set3DWallpaper(this, bg, depth, frontPath ?: "")
+        binding.btnSetLiveTest.setOnClickListener {
+            WallpaperHelper.setTestLiveWallpaper(this)
+        }
+        binding.btnSet3d.setOnClickListener {
+            pickImage {
+                WallpaperHelper.set3DWallpaper(this, it?:return@pickImage)
+            }
         }
 
         binding.btnSetVideo.setOnClickListener {
 
             PictureSelector.create(this).openGallery(SelectMimeType.ofVideo())
-                .isDirectReturnSingle(true)
-                .setMaxSelectNum(1)
-                .setSelectionMode(SelectModeConfig.SINGLE)
-                .setImageEngine(CoilEngine())
+                .isDirectReturnSingle(true).setMaxSelectNum(1)
+                .setSelectionMode(SelectModeConfig.SINGLE).setImageEngine(CoilEngine())
                 .forResult(object : OnResultCallbackListener<LocalMedia> {
                     override fun onResult(result: ArrayList<LocalMedia>?) {
                         if (result != null) {
@@ -74,35 +70,12 @@ class WallpaperActivity : AppCompatActivity() {
                 )
             }
         }
-
-        binding.ivBg.setOnClickListener {
-            pickImage {
-                binding.ivBg.load(it)
-                bgPath = it
-            }
-        }
-        binding.ivBgDepth.setOnClickListener {
-            pickImage {
-                binding.ivBgDepth.load(it)
-                depthPath = it
-            }
-        }
-        binding.ivFront.setOnClickListener {
-            pickImage {
-                binding.ivFront.load(it)
-                frontPath = it
-            }
-        }
     }
-
 
     fun pickImage(onResult: (String?) -> Unit) {
         PictureSelector.create(this).openGallery(SelectMimeType.ofImage())
-            .isDirectReturnSingle(true)
-            .setSelectionMode(SelectModeConfig.SINGLE)
-            .setMaxSelectNum(1)
-            .setImageEngine(CoilEngine())
-            .forResult(object : OnResultCallbackListener<LocalMedia> {
+            .isDirectReturnSingle(true).setSelectionMode(SelectModeConfig.SINGLE).setMaxSelectNum(1)
+            .setImageEngine(CoilEngine()).forResult(object : OnResultCallbackListener<LocalMedia> {
                 override fun onResult(result: ArrayList<LocalMedia>?) {
                     if (result != null) {
                         onResult(result.get(0).availablePath)
@@ -114,21 +87,5 @@ class WallpaperActivity : AppCompatActivity() {
                 }
 
             })
-    }
-
-    private fun writeMp4ToNative(file: File, `is`: InputStream) {
-        try {
-            val os = FileOutputStream(file)
-            var len = -1
-            val buffer = ByteArray(1024)
-            while ((`is`.read(buffer).also { len = it }) != -1) {
-                os.write(buffer, 0, buffer.size)
-            }
-            os.flush()
-            os.close()
-            `is`.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
     }
 }

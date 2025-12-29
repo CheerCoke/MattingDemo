@@ -1,8 +1,6 @@
 package com.ddmh.wallpaper.render
 
 
-import android.R.attr.x
-import android.R.attr.y
 import android.content.Context
 import android.graphics.Bitmap
 import android.opengl.GLES20
@@ -11,8 +9,6 @@ import android.os.SystemClock
 import android.util.Log
 import androidx.core.graphics.createBitmap
 import com.ddmh.wallpaper.WallpaperHelper.ARG_BG_PATH
-import com.ddmh.wallpaper.WallpaperHelper.ARG_DEPTH_PATH
-import com.ddmh.wallpaper.WallpaperHelper.ARG_FRONT_PATH
 import com.ddmh.wallpaper.filter.BaseFilter
 import com.ddmh.wallpaper.util.BitmapUtils
 import com.ddmh.wallpaper.util.LogUtils
@@ -30,15 +26,13 @@ import javax.microedition.khronos.opengles.GL10
 import kotlin.math.max
 
 /**
- * 将背景图、前景抠图与深度图合成立体视差效果的渲染器
+ * 视差效果渲染器
  */
 class Object3DCombinedRenderer(
     private val context: Context
 ) : GLSurfaceView.Renderer {
 
     private val bgPath: String by lazy { SpUtils.getString(context, ARG_BG_PATH) }
-    private val depthPath: String by lazy { SpUtils.getString(context, ARG_DEPTH_PATH) }
-    private val frontPath: String by lazy { SpUtils.getString(context, ARG_FRONT_PATH) }
 
     private var frameStartTimeMs: Long = 0
     private var startTimeMs: Long = 0
@@ -69,22 +63,12 @@ class Object3DCombinedRenderer(
         parallaxFilter = DepthParallaxFilter(readShaderTextFromAsset(context,"frag.glsl"))
         parallaxFilter?.onInit()
 
-        // 加载三张纹理
+        // 加载纹理
         (BitmapUtils.uriToBitmap(context, bgPath)?:emptyBitmap()).let { bg ->
             imageWidth = bg.width
             imageHeight = bg.height
             val bgTex = OpenGlUtils.loadTexture(bg, OpenGlUtils.NO_TEXTURE)
             parallaxFilter?.setTexture(0, bgTex)
-        }
-
-        (BitmapUtils.uriToBitmap(context, depthPath)?:emptyBitmap()).let { depth ->
-            val depthTex = OpenGlUtils.loadTexture(depth, OpenGlUtils.NO_TEXTURE)
-            parallaxFilter?.setTexture(1, depthTex)
-        }
-
-        (BitmapUtils.uriToBitmap(context, frontPath)?:emptyBitmap()).let { front ->
-            val frontTex = OpenGlUtils.loadTexture(front, OpenGlUtils.NO_TEXTURE)
-            parallaxFilter?.setTexture(2, frontTex)
         }
     }
 
@@ -250,18 +234,10 @@ class DepthParallaxFilter(fragShader: String) : BaseFilter(
         )
         GLES20.glEnableVertexAttribArray(attribTextureCoordinate)
 
-        // 绑定三张纹理
+        // 绑定纹理
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureIds[0])
         GLES20.glUniform1i(getHandle(program, "u_bg"), 0)
-
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE1)
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureIds[1])
-        GLES20.glUniform1i(getHandle(program, "u_depth"), 1)
-
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE2)
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureIds[2])
-        GLES20.glUniform1i(getHandle(program, "u_front"), 2)
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4)
 

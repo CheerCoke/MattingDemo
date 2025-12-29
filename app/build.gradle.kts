@@ -58,4 +58,8 @@ dependencies {
     implementation(project(":lib_wallpaper"))
     implementation(libs.pictureselector)
     api("io.coil-kt:coil:2.6.0")
+
+    api("com.github.liangjingkanji:BRV:1.6.1")
+
+    api("com.google.android.flexbox:flexbox:3.0.0")
 }
